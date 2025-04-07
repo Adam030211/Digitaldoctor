@@ -1,0 +1,62 @@
+<!-- templates/generate_form.html -->
+{% extends "base.html" %}
+
+{% block title %}
+  LLM with Document Knowledge
+{% endblock %}
+
+{% block content %}
+  <div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h2>Ask the LLM</h2>
+          {% if doc_count > 0 %}
+            <small class="text-muted">The LLM has access to {{ doc_count }} documents</small>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <form method="post" id="promptForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <textarea name="prompt" class="form-control" rows="5" placeholder="Enter your prompt here..."></textarea>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="useRag" name="use_rag" checked>
+              <label class="form-check-label" for="useRag">
+                Use document knowledge (RAG)
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate</button>
+          </form>
+          
+          <div id="response" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('promptForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      formData.set('use_rag', document.getElementById('useRag').checked);
+      
+      fetch('{% url "generate_text" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response').textContent = data.response;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  </script>
+{% endblock %}
