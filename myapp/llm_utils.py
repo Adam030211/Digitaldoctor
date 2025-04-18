@@ -1,10 +1,16 @@
+#llm.utils.py
 import json
 import pandas as pd
-import ollama
-from sentence_transformers import SentenceTransformer
 import numpy as np
 import faiss
 import os
+from sentence_transformers import SentenceTransformer
+import requests
+
+# Azure OpenAI settings
+AZURE_OPENAI_ENDPOINT = "https://exjobbaa3647630925.openai.azure.com/"
+AZURE_OPENAI_API_KEY = os.environ.get("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_API_VERSION = "2023-05-15"  # Update to the latest version if needed
 
 # Load and prepare metadata
 def load_metadata():
@@ -88,13 +94,41 @@ def format_context(results):
     
     return context
 
-# Get LLM response with RAG
-def get_llm_response(prompt, model_name="llama3.2:latest", use_rag=True):
-    if not use_rag:
-        response = ollama.chat(model=model_name, messages=[
+# Get Azure OpenAI response
+def get_azure_openai_response(prompt, deployment_name="gpt-4"):
+    """
+    Get response from Azure OpenAI
+    """
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": AZURE_OPENAI_API_KEY,
+    }
+    
+    payload = {
+        "messages": [
             {"role": "user", "content": prompt}
-        ])
-        return response['message']['content']
+        ],
+        "temperature": 0.7,
+        "max_tokens": 800
+    }
+    
+    try:
+        api_url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{deployment_name}/chat/completions?api-version={AZURE_OPENAI_API_VERSION}"
+        
+        response = requests.post(api_url, headers=headers, json=payload)
+        response.raise_for_status()  # Raise exception for HTTP errors
+        response_data = response.json()
+        
+        return response_data["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"Azure OpenAI API Error: {e}")
+        return f"Error generating response: {str(e)}"
+
+# Get LLM response with RAG
+def get_llm_response(prompt, deployment_name="gpt-4", use_rag=True):
+    if not use_rag:
+        # Call Azure OpenAI directly without RAG
+        return get_azure_openai_response(prompt, deployment_name)
     
     # Load data for RAG
     metadata = load_metadata()
@@ -115,12 +149,8 @@ Question: {prompt}
 Please provide a concise answer and include references to the specific medical guidelines you used.
 """
     
-    # Get response from LLM
-    response = ollama.chat(model=model_name, messages=[
-        {"role": "user", "content": enhanced_prompt}
-    ])
-    
-    return response['message']['content']
+    # Get response from Azure OpenAI
+    return get_azure_openai_response(enhanced_prompt, deployment_name)
 
 # Example of usage
 if __name__ == "__main__":

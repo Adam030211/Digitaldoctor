@@ -1,4 +1,4 @@
-import pandas as pd
+'''import pandas as pd
 import requests
 import os
 import fitz  # PyMuPDF for PDF processing
@@ -114,4 +114,4 @@ def main():
         json.dump(metadata, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
-    main()
+    main()'''
