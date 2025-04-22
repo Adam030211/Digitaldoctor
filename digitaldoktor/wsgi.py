@@ -12,7 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 
-settings_module = 'Digitaldoktor.deployment' if 'WEBSITE_HOSTNAME' in os.environ else 'Digitaldoktor.settings'
+settings_module = 'digitaldoktor.deployment' if 'WEBSITE_HOSTNAME' in os.environ else 'digitaldoktor.settings'
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 

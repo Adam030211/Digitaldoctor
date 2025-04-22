@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 import requests
 
 # Azure OpenAI settings
-AZURE_OPENAI_ENDPOINT = "https://exjobbaa3647630925.openai.azure.com/"
+AZURE_OPENAI_ENDPOINT = "https://ai-arara16748ai347421306793.openai.azure.com"  # Remove trailing slash"
 AZURE_OPENAI_API_KEY = os.environ.get("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_API_VERSION = "2023-05-15"  # Update to the latest version if needed
 

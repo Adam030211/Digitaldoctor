@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Digitaldoktor.urls'
+ROOT_URLCONF = 'digitaldoktor.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Digitaldoktor.wsgi.application'
+WSGI_APPLICATION = 'digitaldoktor.wsgi.application'
 
 
 # Database
