@@ -5,6 +5,8 @@ whitenoise
 dj-database-url
 python-dotenv
 
+gunicorn==23.0.0 
+
 # Parsing & Scraping
 #beautifulsoup4==4.13.4
 #PyPDF2==3.0.1
