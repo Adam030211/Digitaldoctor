@@ -1,6 +1,5 @@
 # Core
 Django==5.2
-gunicorn
 whitenoise
 dj-database-url
 python-dotenv
