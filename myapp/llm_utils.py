@@ -6,11 +6,18 @@ import faiss
 import os
 from sentence_transformers import SentenceTransformer
 import requests
+from openai import AzureOpenAI
+from dotenv import load_dotenv
+
+# Load the enviroment variables. Key and endpoint
+load_dotenv()
 
 # Azure OpenAI settings
-AZURE_OPENAI_ENDPOINT = "https://ai-arara16748ai347421306793.openai.azure.com"  # Remove trailing slash"
-AZURE_OPENAI_API_KEY = os.environ.get("AZURE_OPENAI_API_KEY")
-AZURE_OPENAI_API_VERSION = "2023-05-15"  # Update to the latest version if needed
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_API_VERSION = "2024-12-01-preview"
+AZURE_DEPLOYMENT_NAME = "gpt-4o-mini"
+
 
 # Load and prepare metadata
 def load_metadata():
@@ -95,40 +102,18 @@ def format_context(results):
     return context
 
 # Get Azure OpenAI response
-def get_azure_openai_response(prompt, deployment_name="gpt-4"):
-    """
-    Get response from Azure OpenAI
-    """
-    headers = {
-        "Content-Type": "application/json",
-        "api-key": AZURE_OPENAI_API_KEY,
-    }
-    
-    payload = {
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 800
-    }
-    
-    try:
-        api_url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{deployment_name}/chat/completions?api-version={AZURE_OPENAI_API_VERSION}"
-        
-        response = requests.post(api_url, headers=headers, json=payload)
-        response.raise_for_status()  # Raise exception for HTTP errors
-        response_data = response.json()
-        
-        return response_data["choices"][0]["message"]["content"]
-    except Exception as e:
-        print(f"Azure OpenAI API Error: {e}")
-        return f"Error generating response: {str(e)}"
-
+# First API call: Ask the model to use the function
+    response = client.chat.completions.create(
+        model=deployment_name,
+        messages=messages,
+        tools=tools,
+        tool_choice="auto",
+    )
 # Get LLM response with RAG
-def get_llm_response(prompt, deployment_name="gpt-4", use_rag=True):
+def get_llm_response(prompt, deployment_name=AZURE_DEPLOYMENT_NAME, use_rag=True):
     if not use_rag:
         # Call Azure OpenAI directly without RAG
-        return get_azure_openai_response(prompt, deployment_name)
+        return get_azure_openai_response(prompt)
     
     # Load data for RAG
     metadata = load_metadata()
@@ -150,7 +135,7 @@ Please provide a concise answer and include references to the specific medical g
 """
     
     # Get response from Azure OpenAI
-    return get_azure_openai_response(enhanced_prompt, deployment_name)
+    return get_azure_openai_response(enhanced_prompt)
 
 # Example of usage
 if __name__ == "__main__":
@@ -160,3 +145,35 @@ if __name__ == "__main__":
     # Get response
     response = get_llm_response(query)
     print(response)
+
+ #test   
+
+def get_azure_openai_response(prompt):
+
+
+    client = AzureOpenAI(
+    api_version=AZURE_OPENAI_API_VERSION,
+    azure_endpoint=AZURE_OPENAI_ENDPOINT,
+    api_key=AZURE_OPENAI_API_KEY,
+    )
+    try:
+        response = client.chat.completions.create(
+            messages=[
+
+                {
+                "role": "user",
+                "content": prompt,
+                }
+            ],
+            max_tokens=4096,
+            temperature=1.0,
+            top_p=1.0,
+            model=AZURE_DEPLOYMENT_NAME
+        )
+        return response.choices[0].message.content
+
+    except Exception as e:
+        print(f"Error calling Azure OpenAI: {str(e)}")
+        return f"Error generating response: {str(e)}"
+    
+ 

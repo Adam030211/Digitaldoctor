@@ -1,10 +1,11 @@
 import os 
 from .settings import *
 from .settings import BASE_DIR
-
+from openai import AzureOpenAI
 
 SECRET_KEY = os.environ['SECRET']
 AZURE_OPENAI_API_KEY = os.environ['AZURE_OPENAI_API_KEY']
+AZURE_OPENAI_ENDPOINT = os.environ['AZURE_OPENAI_ENDPOINT']
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 DEBUG = False

@@ -1,5 +1,4 @@
 from django.shortcuts import render, HttpResponse
-from .models import TodoItem
 from django.http import JsonResponse
 from .llm_utils import get_llm_response
 # views.py
@@ -10,7 +9,7 @@ def generate_text(request):
         use_rag = request.POST.get('use_rag', 'true') == 'true'
         
         # Get deployment name, default to gpt-4
-        deployment_name = request.POST.get('deployment_name', 'gpt-4')
+        deployment_name = request.POST.get('deployment_name', 'gpt-4o-mini')
                 
         if prompt:
             try:
@@ -29,10 +28,8 @@ def generate_text(request):
     return render(request, 'generate_form.html')
 
 # Create your views here.
-def home(request):
-    return render(request, "home.html")
+def test(request):
+    print(test_get_azure_openai_response())
+    return render(request, "generate_form.html")
 
-def todos(request):
-    items = TodoItem.objects.all()
-    return render(request, "todos.html", {"todos": items})
 
