@@ -36,6 +36,11 @@ joblib==1.4.2
 tqdm==4.67.1
 fsspec==2025.3.2
 safetensors==0.5.3
+openai==1.76.0
+pdfplumber==0.11.6
+
+openai==1.76.0
+poppler-utils==0.1.0
 
 # HTTP Clients
 httpx==0.28.1

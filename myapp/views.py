@@ -28,8 +28,5 @@ def generate_text(request):
     return render(request, 'generate_form.html')
 
 # Create your views here.
-def test(request):
-    print(test_get_azure_openai_response())
-    return render(request, "generate_form.html")
 
 
