@@ -5,6 +5,7 @@ import pickle
 import faiss
 from openai import AzureOpenAI
 from dotenv import load_dotenv
+import re
 
 # Load environment variables
 load_dotenv()
@@ -67,22 +68,22 @@ def search(query, top_k=3):
 # ---- LLM Response ----
 def get_llm_response(prompt, use_rag=True):
     if use_rag:
-        results = search(prompt, top_k=3)
+        results = search(prompt, top_k=5)
         context = ""
         for i, res in enumerate(results):
-            context += f"Document {i+1}: {res['metadata']['title']}\nSource: {res['metadata']['url']}\nExcerpt: {res['text'][:300]}...\n\n"
+            print(f"[{i+1}] Titel: {res['metadata']['title']} ")
+            context += f"Document {i+1}: {res['text']}...\n\n"
 
         enhanced_prompt = f"""
 Please answer the following medical question based on the provided information.
 
 You MUST include references to the specific documents you use.
-Always include the TITLE and the SOURCE URL when citing.
 
         {context}
 
         Question: {prompt}
 
-        Please provide a concise answer and include references.
+        Please provide a concise answer and include references. Make references in the following format [number] after each statement based on the source.
         """
     else:
         enhanced_prompt = prompt
@@ -96,12 +97,39 @@ Always include the TITLE and the SOURCE URL when citing.
                 }
             ],
             max_tokens=4096,
-            temperature=1.0,
-            top_p=1.0,
+            temperature=0.2,
+            top_p=0.5,
             model=GPT4O_DEPLOYMENT_NAME
         )
-        return response.choices[0].message.content
+        ref = create_reference_list(response.choices[0].message.content, results)
+        the_llm_responce =response.choices[0].message.content
+        s = {
+                "references": ref,
+                "content": the_llm_responce,
+            }
+        return s
     except Exception as e:
         print(f"Error calling GPT-4o: {str(e)}")
         return f"Error generating response: {str(e)}"
+    
+def create_reference_list(response, results):
+
+    numbers = re.findall(r'\[(\d+)\]', response)
+    numbers = [int(n) for n in numbers]
+    unique_numbers = set(numbers)
+    unique_numbers = sorted(unique_numbers)
+    
+    selected_items = [results[i-1] for i in unique_numbers]
+
+    references =[]
+
+    for ref in selected_items:
+       references.append(f"[ {unique_numbers[0]} ] Titel: {ref['metadata']['title']}\nURL: {ref['metadata']['url']} \n\n")
+       unique_numbers.remove(unique_numbers[0])
+       #print(f"Titel: {ref['metadata']['title']}\nURL: {ref['metadata']['url']} \n\n")
+    #print(references)
+    return " ".join(references)
+
+
+
 

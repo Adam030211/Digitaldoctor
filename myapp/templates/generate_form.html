@@ -30,7 +30,8 @@
             <button type="submit" class="btn btn-primary">Generate</button>
           </form>
           
-          <div id="response" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;"></div>
+          <div id="response" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;" ></div>
+          <div id="references" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;"></div>
         </div>
       </div>
     </div>
@@ -52,8 +53,10 @@
       })
       .then(response => response.json())
       .then(data => {
-        document.getElementById('response').textContent = data.response;
+        document.getElementById('response').textContent = data.response.content;
+        document.getElementById('references').textContent = data.response.references;
       })
+      
       .catch(error => {
         console.error('Error:', error);
       });
