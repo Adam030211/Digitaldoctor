@@ -1,0 +1,80 @@
+[
+  {
+    "type":"text",
+    "page":1,
+    "content":"obs utskriven version ogiltig verifiera innehållet rutin gäller för västra götalandsregionen giltig från 2023-11-02 innehållsansvar pia rydell piary1 verksamhetschef giltig till 2028-08-31 granskad av pia rydell piary1 verksamhetschef godkänd av pia rydell piary1 verksamhetschef regional rutin registrering koder orsaker elvis vid utredning behandling inom specialistpsykiatrisk vuxenpsykiatri fastställd ordförande samordningsråd vuxenpsykiatri sept 2023 giltig sept 2028 utarbetad höstterminen 2022 arbetsgrupp utsedd samordningsråd vuxenpsykiatri syfte övergripande syfte rutinen ge överblick över väntetider definierade insatser ge underlag jämförbara utdata psykiatrin västra götalandsregionen genom gemensamma åtgärdskoder bokningsorsaker elvis bakgrund efter överenskommelse mellan skr socialdepartementet en ny uppdaterad kömiljard 2019 skulle regionerna förbereda införandet utvecklad uppföljning specialiserad vård när utvecklade uppföljningen väntetider implementeras blir möjligt följa upp alla genomförda kontakter specialiserade vården oavsett första besök återbesök utredningar eller behandlingar patienter kroniska sjukdomar olika förvaltningarna haft olika arbetssätt gällande bokningsorsaker elvis rapportering väntetider genom gemensam rutin samlade vuxenpsykiatrin regionen jämföra likvärdiga indata samarbeta kring tillgänglighetsfrågor likvärdig vård rubrik registrering koder orsaker elvis vid utredning behandling dokument-id ssn11800-2140136717-477 version 6 0",
+    "table_number":null
+  },
+  {
+    "type":"text",
+    "page":2,
+    "content":"obs utsk riven version ogiltig verifiera innehållet arbetsbeskrivning behandling inom vuxenpsykiatrin orsak- åtgärdsregistrering elvis efter beslut behandling tid erbjudas samråd patienten inom 90 dagar beslutsdatum enligt nationell vårdgaranti detta gäller första behandlingstillfället besökstyp g beslut tas erbjuda patienten ny behandling räknas även detta första behandlingstillfälle nationell vårdgaranti gäller patienten alltså rätt vårdgaranti vid varje nytt beslut ny behandling faller in under kvå-koderna nedan behandlingen avser någon nedanstående kvå-koder obligatorisk registrera typ behandling orsak åtgärd registreras registreras systematisk psykologisk behandling annan beh du009 habit reversal training hrt du009 färdighetsträning färträn du023 psykopedagogisk behandling vid adhd ppedadhd du023 stabilisering stabil du023 information undervisning riktad patienten patutb gb009 självständigt liv esl gb009 illness management recovery imr gb009 utbildning vuxna adhd pegasus gb009 utbildning patienter bipolär sjukdom skolanät gb009 integrerad psykologisk terapi-kognitiv träning ipt-k gb009 strukturstödjande behandling ha koll gb009 information undervisning riktad närstående anhutb gb010 bildterapi bildtera du031 kroppskännedomsträning bk dv086 dialektisk beteendeterapi dbt du021 eye movement desensitization and reprocessing emdr du014 kognitiv beteendeterapi kbt du011 utökad beteendeanalys uba du011 exponering responsprevention uv125 ocd erp du011 grupp individuell behandling uv125 ocd grind du011 prolonged exposure uv121 pe du011 emotion regulation group therapy ergt du015 mentaliseringsbaserad terapi mbt du013 rubrik registrering koder orsaker elvis vid utredning behandling 2 dokument-id ssn11800-2140136717-477 version 6 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":2,
+    "content":"typ behandling orsak åtgärd none none registreras none none registreras none systematisk psykologisk behandling annan beh none none du009 none none habit reversal training hrt none none du009 none none färdighetsträning färträn none none du023 none none psykopedagogisk behandling vid adhd ppedadhd none none du023 none none stabilisering stabil none none du023 none none information undervisning riktad patienten patutb none none gb009 none none självständigt liv esl none none gb009 none none illness management recovery imr none none gb009 none none utbildning vuxna adhd pegasus none none gb009 none none utbildning patienter bipolär sjukdom skolanät none none gb009 none none integrerad psykologisk terapi-kognitiv träning ipt-k none none gb009 none none strukturstödjande behandling ha koll none none gb009 none none information undervisning riktad närstående anhutb none none gb010 none none bildterapi bildtera none none du031 none none kroppskännedomsträning bk none none dv086 none none dialektisk beteendeterapi dbt none none du021 none none eye movement desensitization and reprocessing emdr none none du014 none none kognitiv beteendeterapi kbt none none du011 none none utökad beteendeanalys uba none none du011 none none exponering responsprevention uv125 ocd erp none none du011 none none grupp individuell behandling uv125 ocd grind none none du011 none none prolonged exposure uv121 pe none none du011 none none emotion regulation group therapy ergt none none du015 none none mentaliseringsbaserad terapi mbt none none du013 none none",
+    "table_number":1.0
+  },
+  {
+    "type":"text",
+    "page":3,
+    "content":"obs utsk riven version ogiltig verifiera innehållet intensive short-term dynamic psychotherapy istdp du008 ux008 psykodynamisk terapi pdt du008 ätträning ätträn du012 systematisk psykologisk behandling interpersonell ipt du022 systematisk psykologisk behandling kognitiv beh du010 ordination läkemedel utvärdering effekt läkemed dt026 biverkan regional åtgärdskod senare registreras vid genomförandet behandlingen utredning inom vuxenpsykiatrin orsak- åtgärdsregistrering elvis elvis efter beslut utredning tid erbjudas samråd patienten inom 90 dagar beslutsdatum enligt nationell vårdgaranti detta gäller första utredningstillfället besökstyp m beslut tas erbjuda patienten ny utredning räknas även detta första utredningstillfälle nationell vårdgaranti gäller patienten alltså rätt vårdgaranti vid varje nytt beslut ny utredning faller in under kvå-koderna nedan utredningen avser någon nedanstående kvå-koder obligatorisk registrera ändra automatiska kodtexterna melior texterna denna lista melior ändra automatiska kodtexterna texterna denna lista orsak åtgärd diagnos under utredning basutr au006 f999 basutredning psykisk sjukdom uns under psykiatrisk basutredning basnp au006 r418 bas-np under neuropsykiatrisk under neuropsykiatrisk basutredning basutredning nputredn aa085 r418 under neuropsykiatrisk neuropsykiatrisk under neuropsykiatrisk utredning utredning utredning trau utr au006 befintlig diagnos traumautredning under traumautredning ät utr au006 r633 ätstörningsutredning under ätstörningsutredning ätproblem uns laro utr av115 f112 c laro-utredning under laro-utredning opioidberoende aktivt droganvändande rubrik registrering koder orsaker elvis vid utredning behandling 3 dokument-id ssn11800-2140136717-477 version 6 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"intensive short-term dynamic psychotherapy n ux008 istdp du008 psykodynamisk terapi pdt du008 ätträning ätträn du012 systematisk psykologisk behandling interpersonell ipt du022 systematisk psykologisk behandling kognitiv beh du010 ordination läkemedel utvärdering effekt och nbiverkan läkemed dt026",
+    "table_number":1.0
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"orsak none none åtgärd none none diagnos under none none none none none none none utredning none basutr nbasutredning none none au006 nunder psykiatrisk basutredning none none f999 npsykisk sjukdom uns none none basnp nbas-np none none au006 r418 none none none none under neuropsykiatrisk none none under neuropsykiatrisk none none none none none basutredning none none basutredning none nputredn nneuropsykiatrisk nutredning none none aa085 nunder neuropsykiatrisk nutredning none none r418 nunder neuropsykiatrisk nutredning none none trau utr au006 befintlig diagnos none none none traumautredning none none under traumautredning none none none none ät utr nätstörningsutredning none none au006 nunder ätstörningsutredning none none r633 nätproblem uns none none laro utr nlaro-utredning none none av115 nunder laro-utredning none none f112 c none none none none none none none opioidberoende aktivt none none none none none none none none droganvändande none",
+    "table_number":2.0
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"basnp bas-np",
+    "table_number":3.0
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"laro utr laro-utredning",
+    "table_number":4.0
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"av115 under laro-utredning",
+    "table_number":5.0
+  },
+  {
+    "type":"text",
+    "page":4,
+    "content":"obs utsk riven version ogiltig verifiera innehållet demensut av030 r413 demensutredning under demensutredning minnesutredning uns ocd utr au006 befintlig diagnos ocd-utredning under ocd-utredning persutr au008 f999 personlighetsutredning under personlighetsutredning psykisk sjukdom uns if utr aa060 befintlig diagnos intellektuell funktions- under intellektuell utredning funktionsutredning mbt utr aa060 befintlig diagnos mbt-utredning under utredning inför eventuell mbt arb utr av133 befintlig diagnos arbetsterapeut-utredning under arbetsterapeututredning psykosut au006 f299 psykosutredning under psykosutredning under psykosutredning bipo utr au006 befintlig diagnos bipolärutredning under bipolärutredning referenser relaterade dokument regional lathund elvis första utredning behandling inom bup vup vgregion se innehållsansvarig samordningsråd vuxenpsykiatri rubrik registrering koder orsaker elvis vid utredning behandling 4 dokument-id ssn11800-2140136717-477 version 6 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":4,
+    "content":"demensut ndemensutredning none none av030 nunder demensutredning none none r413 nminnesutredning uns ocd utr nocd-utredning none none au006 befintlig diagnos none none none none under ocd-utredning none none persutr npersonlighetsutredning none none au008 nunder personlighetsutredning none none f999 npsykisk sjukdom uns if utr aa060 befintlig diagnos none intellektuell funktions- none none under intellektuell none none none utredning none none funktionsutredning none none mbt utr nmbt-utredning none none aa060 nunder utredning inför eventuell nmbt none none befintlig diagnos arb utr av133 befintlig diagnos none arbetsterapeut-utredning none none under arbetsterapeututredning none none psykosut npsykosutredning none none au006 nunder psykosutredning none none f299 nunder psykosutredning bipo utr au006 befintlig diagnos none bipolärutredning none none under bipolärutredning none none",
+    "table_number":1.0
+  },
+  {
+    "type":"table",
+    "page":4,
+    "content":"ocd utr ocd-utredning",
+    "table_number":2.0
+  },
+  {
+    "type":"text",
+    "page":5,
+    "content":"o b s utskriven version ogiltig verifiera innehållet information handlingen handlingstyp rutin gäller för västra götalandsregionen innehållsansvar pia rydell piary1 verksamhetschef granskad av pia rydell piary1 verksamhetschef godkänd av pia rydell piary1 verksamhetschef dokument-id ssn11800-2140136717-477 version 6 0 giltig från 2023-11-02 giltig till 2028-08-31",
+    "table_number":null
+  }
+]

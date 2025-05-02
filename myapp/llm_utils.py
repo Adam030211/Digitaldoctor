@@ -9,8 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# ---- Azure OpenAI Setup ----
-# Chat (gpt-4o-mini)
+# Azure OpenAI Setup
 GPT4O_API_KEY = os.getenv("GPT4O_API_KEY")
 GPT4O_ENDPOINT = os.getenv("GPT4O_ENDPOINT")
 GPT4O_DEPLOYMENT_NAME = "gpt-4o-mini" #os.getenv("gpt-4o-mini")
@@ -70,7 +69,7 @@ def get_llm_response(prompt, use_rag=True):
         results = search(prompt, top_k=3)
         context = ""
         for i, res in enumerate(results):
-            context += f"Document {i+1}: {res['metadata']['title']}\nSource: {res['metadata']['url']}\nExcerpt: {res['text'][:300]}...\n\n"
+            context += f"Document {i+1}: {res['metadata']['title']}\nSource: {res['metadata']['url']}\nExcerpt: {res['text'][:512]}...\n\n"
 
         enhanced_prompt = f"""
 Please answer the following medical question based on the provided information.
@@ -82,7 +81,7 @@ Always include the TITLE and the SOURCE URL when citing.
 
         Question: {prompt}
 
-        Please provide a concise answer and include references.
+        Please provide a concise answer and include references. Always write your answer in Swedish.
         """
     else:
         enhanced_prompt = prompt
@@ -96,12 +95,12 @@ Always include the TITLE and the SOURCE URL when citing.
                 }
             ],
             max_tokens=4096,
-            temperature=1.0,
-            top_p=1.0,
+            temperature=0.2,
+            top_p=0.5,
             model=GPT4O_DEPLOYMENT_NAME
         )
         return response.choices[0].message.content
     except Exception as e:
-        print(f"Error calling GPT-4o: {str(e)}")
+        print(f"Error calling GPT-4o-mini: {str(e)}")
         return f"Error generating response: {str(e)}"
 

@@ -10,7 +10,7 @@
     <div class="col-md-8 offset-md-2">
       <div class="card">
         <div class="card-header">
-          <h2>Ask the LLM</h2>
+          <h2>Ställ medecinska frågor till AI tränad på VGR riktlingerna</h2>
           {% if doc_count > 0 %}
             <small class="text-muted">The LLM has access to {{ doc_count }} documents</small>
           {% endif %}
@@ -19,12 +19,12 @@
           <form method="post" id="promptForm">
             {% csrf_token %}
             <div class="form-group">
-              <textarea name="prompt" class="form-control" rows="5" placeholder="Enter your prompt here..."></textarea>
+              <textarea name="prompt" class="form-control" rows="5" placeholder="Skriv din medecinska fråga eller fråga om riktlinjer här..."></textarea>
             </div>
             <div class="form-check mb-3">
               <input class="form-check-input" type="checkbox" id="useRag" name="use_rag" checked>
               <label class="form-check-label" for="useRag">
-                Use document knowledge (RAG)
+                Använd VGR riktlinjer för att svara på frågan (RAG)
               </label>
             </div>
             <button type="submit" class="btn btn-primary">Generate</button>

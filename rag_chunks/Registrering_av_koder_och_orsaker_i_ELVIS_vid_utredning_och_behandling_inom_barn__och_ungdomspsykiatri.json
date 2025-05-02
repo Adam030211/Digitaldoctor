@@ -1,0 +1,62 @@
+[
+  {
+    "type":"text",
+    "page":1,
+    "content":"obs utskriven version ogiltig verifiera innehållet rutin gäller för västra götalandsregionen giltig från 2024-10-11 innehållsansvar magnus skog magsk1 verksamhetschef giltig till 2029-05-27 granskad av magnus skog magsk1 verksamhetschef godkänd av magnus skog magsk1 verksamhetschef regional rutin registrering koder orsaker elvis vid utredning behandling inom barn- ungdomspsykiatri fastställd ordförande samordningsråd barn- ungdomspsykiatri giltig 2029-05-27 utarbetad barn- ungdomspsykiatrins tillgänglighetsprojekt höstterminen 2023 samarbete samordningsråd barn ungdom syfte övergripande syfte rutinen ge överblick över väntetider definierade insatser ge underlag jämförbara utdata bup västra götalandsregionen genom gemensamma åtgärdskoder bokningsorsaker elvis bakgrund bup finns sedan 2011 målsättning förstärkt vårdgaranti innebär barn ungdomar behöva vänta längre än 30 dagar första bedömning samt ytterligare 30 dagar fördjupad utredning eller behandling detta gäller första behandlingstillfället besökstyp g beslut tas erbjuda patienten ny behandling räknas även detta första behandlingstillfälle nationell vårdgaranti gäller patienten alltså rätt vårdgaranti vid varje nytt beslut ny behandling faller in under kvå-koderna nedan behandlingen avser någon nedanstående kvå-koder obligatorisk registrera rubrik registrering koder orsaker elvis vid utredning behandling dokument-id ssn11800-2140136717-555 version 10 0",
+    "table_number":null
+  },
+  {
+    "type":"text",
+    "page":2,
+    "content":"obs utsk riven version ogiltig verifiera innehållet behandling inom bup orsak- åtgärdsregistrering elvis orsakskod åtgärdskod typ behandling 8 tecken kvå-kod psykopedagogisk behandling ångest ppbång du023 psykopedagogisk behandlingsdepression ppbdep du023 psykopedagogisk beh adhd inkluderar skills ppbadhd du023 psykopedagogisk behandling vid autism ppbasd du023 psykopedagogisk behandling vid trauma stress ppbtraum du023 psykopedagogisk behandling vid självskada ppbsjälv du023 psykopedagogisk behandling vid ocd ppbocd du023 psykopedagogisk behandling vid bipolär diagnos ppbbip du023 föräldrautbildning manualiserad metod - strategi strategi du028 föräldrautbildning - mitt barn autism mbha du028 föräldrautbildning - komet komet du028 föräldrakurs adhd adhd - ung du028 kognitiv beteendeterapi vid depression kbtdep du011 kognitiv beteendeterapi vid ångest kbtång du011 kbt ospecificerad kbtövr du011 kbt tics kbttics du011 kbt ocd kbtocd du011 kbt vid fobi kbtfobi du011 kbt vid selektiv mutism kbtselmu du011 exponering responsprevention erp du011 traumafokuserad kbt tf-kbt du011 rubrik registrering koder orsaker elvis vid utredning behandling 2 dokument-id ssn11800-2140136717-555 version 10 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":2,
+    "content":"typ behandling orsakskod n 8 tecken åtgärdskod n kvå-kod psykopedagogisk behandling ångest ppbång du023 psykopedagogisk behandlingsdepression ppbdep du023 psykopedagogisk beh adhd inkluderar skills ppbadhd du023 psykopedagogisk behandling vid autism ppbasd du023 psykopedagogisk behandling vid trauma stress ppbtraum du023 psykopedagogisk behandling vid självskada ppbsjälv du023 psykopedagogisk behandling vid ocd ppbocd du023 psykopedagogisk behandling vid bipolär diagnos ppbbip du023 föräldrautbildning manualiserad metod - strategi strategi du028 föräldrautbildning - mitt barn autism mbha du028 föräldrautbildning - komet komet du028 föräldrakurs adhd adhd - ung du028 kognitiv beteendeterapi vid depression kbtdep du011 kognitiv beteendeterapi vid ångest kbtång du011 kbt ospecificerad kbtövr du011 kbt tics kbttics du011 kbt ocd kbtocd du011 kbt vid fobi kbtfobi du011 kbt vid selektiv mutism kbtselmu du011 exponering responsprevention erp du011 traumafokuserad kbt tf-kbt du011",
+    "table_number":1.0
+  },
+  {
+    "type":"table",
+    "page":2,
+    "content":"orsakskod 8 tecken",
+    "table_number":2.0
+  },
+  {
+    "type":"table",
+    "page":2,
+    "content":"åtgärdskod kvå-kod",
+    "table_number":3.0
+  },
+  {
+    "type":"text",
+    "page":3,
+    "content":"obs utsk riven version ogiltig verifiera innehållet habit reversal training hrt du009 annan specificerad psykologisk behandling beh du009 ryms inom övriga orsakskoder child parent psychotherapy cpp du009 dialektisk beteendeterapi dbt du021 psykodynamisk terapi pdt du008 eye movement desensitization and reprocessing emdr du014 du022 interpersonell terapi ipt anknytningsbaserad familjeterapi abft du076 systemisk familjeterapi sysfam du076 funktionell familjeterapi fft du024 familjebehandling vid ätstörning ätbeh du079 marte meo martemeo du030 utprovning förskrivning hjälpmedel hjälpmed ga025 information eller utbildning föreläsningsform patutb gb009 information eller utbildning föreläsningsform anhutb gb010 närstående mentaliseringsbaserad terapi mbt du013 basal kroppskännedom bk dv086 ätträning ätträn du012 ordination läkemedel ordläk dt026 multifamiljeterapi mft du072 rubrik registrering koder orsaker elvis vid utredning behandling 3 dokument-id ssn11800-2140136717-555 version 10 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":3,
+    "content":"habit reversal training hrt du009 annan specificerad psykologisk behandling som ninte ryms inom övriga orsakskoder beh du009 child parent psychotherapy cpp du009 dialektisk beteendeterapi dbt du021 psykodynamisk terapi pdt du008 eye movement desensitization and reprocessing emdr du014 interpersonell terapi ipt du022 anknytningsbaserad familjeterapi abft du076 systemisk familjeterapi sysfam du076 funktionell familjeterapi fft du024 familjebehandling vid ätstörning ätbeh du079 marte meo martemeo du030 utprovning förskrivning hjälpmedel hjälpmed ga025 information eller utbildning föreläsningsform ntill patutb gb009 information eller utbildning föreläsningsform ntill närstående anhutb gb010 mentaliseringsbaserad terapi mbt du013 basal kroppskännedom bk dv086 ätträning ätträn du012 ordination läkemedel ordläk dt026 multifamiljeterapi mft du072",
+    "table_number":1.0
+  },
+  {
+    "type":"text",
+    "page":4,
+    "content":"obs utsk riven version ogiltig verifiera innehållet utredning inom bup orsak- åtgärdsregistrering elvis orsakskod åtgärdskod klartext orsakskod 8 tecken åtgärd adhd-utredning adhd1 au006 uw007 adhd-utredning psykolog adhd2 au006 uw007 autadhd au006 autism eller autism adhd utredning uw007 annan barn-och ungdomspsykiatrisk utredning utrannan au006 uw007 referenser relaterade dokument regional lathund elvis första utredning behandling inom bup vup vgregion se innehållsansvarig samordningsråd barn- ungdomspsykiatri rubrik registrering koder orsaker elvis vid utredning behandling 4 dokument-id ssn11800-2140136717-555 version 10 0",
+    "table_number":null
+  },
+  {
+    "type":"table",
+    "page":4,
+    "content":"klartext orsakskod orsakskod åtgärdskod none none 8 tecken none none åtgärd none adhd-utredning adhd1 none none au006 nuw007 none none adhd-utredning psykolog adhd2 none none au006 nuw007 none none autism eller autism adhd utredning autadhd none none au006 nuw007 none none annan barn-och ungdomspsykiatrisk utredning utrannan none none au006 nuw007 none none",
+    "table_number":1.0
+  },
+  {
+    "type":"text",
+    "page":5,
+    "content":"o b s utskriven version ogiltig verifiera innehållet information handlingen handlingstyp rutin gäller för västra götalandsregionen innehållsansvar magnus skog magsk1 verksamhetschef granskad av magnus skog magsk1 verksamhetschef godkänd av magnus skog magsk1 verksamhetschef dokument-id ssn11800-2140136717-555 version 10 0 giltig från 2024-10-11 giltig till 2029-05-27",
+    "table_number":null
+  }
+]
