@@ -170,5 +170,11 @@ def create_refrencelist(response, results):
             ref_counter += 1
             seen_urls.add(url)
 
+    print(updated_response)
+    #Find  example [2][2] in the text which steems from the chunk refs and turn them into [2] by finding patter that finds more then one [i] with the same number next to eachother
+    double_ref_pattern = re.compile(r'\[(\d+)\]\[\1\]')
+
+    double_ref_pattern.sub(r'[\1]', updated_response)
+
     return updated_response, "".join(references)
 
