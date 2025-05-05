@@ -1,4 +1,5 @@
 # llm_utils.py
+from collections import defaultdict
 import os
 import numpy as np
 import pickle
@@ -6,7 +7,7 @@ import faiss
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 import re
-
+import json
 # Load environment variables
 load_dotenv()
 
@@ -33,6 +34,8 @@ embedding_client = AzureOpenAI(
     azure_endpoint=EMBEDDING_ENDPOINT,
     api_version="2024-12-01-preview"
 )
+
+history = []
 
 # ---- Load FAISS index ----
 embeddings = np.load("embeddings.npy")   # TODO: Correct the path
@@ -83,8 +86,9 @@ You MUST include references to the specific documents you use.
 
         Question: {prompt}
 
-        Please provide a concise answer and include references. Make references in the following format [number] after each statement based on the source.
-        """
+        Please provide a concise answer. Make references in the following format [number] after each statement based on the source. No referencelist should be included.
+        """#Here is a history of previous asked and answered questions (can be empty if there is no history). Use only if history is deemd relevant to the question being asked. {history}"""
+
     else:
         enhanced_prompt = prompt
 
@@ -101,8 +105,17 @@ You MUST include references to the specific documents you use.
             top_p=0.5,
             model=GPT4O_DEPLOYMENT_NAME
         )
-        ref = create_reference_list(response.choices[0].message.content, results)
-        the_llm_responce =response.choices[0].message.content
+        the_llm_responce, ref = create_refrencelist(response.choices[0].message.content, results)
+        create_refrencelist(response.choices[0].message.content, results)
+
+        history.append({
+            "question" : prompt,
+            "response" :the_llm_responce,
+            "references": ref
+        })
+        #Try to minimize amount of history, this is not yet used.
+        if len(history) >= 3:
+            history.remove(history[0])
         s = {
                 "references": ref,
                 "content": the_llm_responce,
@@ -111,25 +124,51 @@ You MUST include references to the specific documents you use.
     except Exception as e:
         print(f"Error calling GPT-4o: {str(e)}")
         return f"Error generating response: {str(e)}"
-    
-def create_reference_list(response, results):
-
-    numbers = re.findall(r'\[(\d+)\]', response)
-    numbers = [int(n) for n in numbers]
-    unique_numbers = set(numbers)
-    unique_numbers = sorted(unique_numbers)
-    
-    selected_items = [results[i-1] for i in unique_numbers]
-
-    references =[]
-
-    for ref in selected_items:
-       references.append(f"[ {unique_numbers[0]} ] Titel: {ref['metadata']['title']}\nURL: {ref['metadata']['url']} \n\n")
-       unique_numbers.remove(unique_numbers[0])
-       #print(f"Titel: {ref['metadata']['title']}\nURL: {ref['metadata']['url']} \n\n")
-    #print(references)
-    return " ".join(references)
 
 
+def create_refrencelist(response, results):
 
+    # FInd all the references that are formated [i], in accordance with the enhanced prompt
+    ref_num_in_text = list(map(int, re.findall(r'\[(\d+)\]', response)))
+
+        # Each number should be connected to said url, num-1 as we add one when sending it to the llm to match convention
+    number_to_url = {num: results[num-1]['metadata']['url'] for num in ref_num_in_text}
+
+    # Since we can get duplicates in the text, as the text might reference a chunk multiple times, we want to find all sources that ref. the same url (document)
+    url_to_numbers = {}
+    for num, url in number_to_url.items():
+        if url not in url_to_numbers:
+         url_to_numbers[url] = []
+        url_to_numbers[url].append(num)
+
+    #Multiple references can refrence the same dokument, just be from different chunks, 
+    # this will give them the lowest value of the duplicates, to avoid multiple references that point to the same document, then the response text to the HTML page gets updated
+    canonical_number = {}
+    for url, nums in url_to_numbers.items():
+        min_num = min(nums)
+        for num in nums:
+            canonical_number[num] = min_num
+
+    updated_response = response
+    for num in sorted(canonical_number, reverse=True): 
+        updated_response = updated_response.replace(f"[{num}]", f"[{canonical_number[num]}]")
+
+    #Create the ref list
+    seen_urls = set()
+    references = []
+    ref_counter = 1  
+
+    # Assign new reference numbers in order of first appearance as the conv. states to make it lättare
+    for num in sorted(ref_num_in_text):
+        url = number_to_url[num]
+        if url not in seen_urls:
+            doc = results[num-1]
+            references.append(
+                f"[{ref_counter}] Title: {doc['metadata']['title']}\n"
+                f"URL: {doc['metadata']['url']}\n\n"
+            )
+            ref_counter += 1
+            seen_urls.add(url)
+
+    return updated_response, "".join(references)
 
