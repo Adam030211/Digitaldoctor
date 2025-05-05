@@ -106,7 +106,7 @@ You MUST include references to the specific documents you use.
             model=GPT4O_DEPLOYMENT_NAME
         )
         the_llm_responce, ref = create_refrencelist(response.choices[0].message.content, results)
-        create_refrencelist(response.choices[0].message.content, results)
+        print(response.choices[0].message.content)
 
         history.append({
             "question" : prompt,
@@ -125,56 +125,50 @@ You MUST include references to the specific documents you use.
         print(f"Error calling GPT-4o: {str(e)}")
         return f"Error generating response: {str(e)}"
 
-
 def create_refrencelist(response, results):
+    # mapping the number from the chunk to the url & find all ref. in the LLM response
+    number_to_url = {i + 1: doc['metadata']['url'] for i, doc in enumerate(results)}
+    matches = list(re.finditer(r'\[(\d+)\]', response))
 
-    # FInd all the references that are formated [i], in accordance with the enhanced prompt
-    ref_num_in_text = list(map(int, re.findall(r'\[(\d+)\]', response)))
-
-        # Each number should be connected to said url, num-1 as we add one when sending it to the llm to match convention
-    number_to_url = {num: results[num-1]['metadata']['url'] for num in ref_num_in_text}
-
-    # Since we can get duplicates in the text, as the text might reference a chunk multiple times, we want to find all sources that ref. the same url (document)
-    url_to_numbers = {}
-    for num, url in number_to_url.items():
-        if url not in url_to_numbers:
-         url_to_numbers[url] = []
-        url_to_numbers[url].append(num)
-
-    #Multiple references can refrence the same dokument, just be from different chunks, 
-    # this will give them the lowest value of the duplicates, to avoid multiple references that point to the same document, then the response text to the HTML page gets updated
-    canonical_number = {}
-    for url, nums in url_to_numbers.items():
-        min_num = min(nums)
-        for num in nums:
-            canonical_number[num] = min_num
-
-    updated_response = response
-    for num in sorted(canonical_number, reverse=True): 
-        updated_response = updated_response.replace(f"[{num}]", f"[{canonical_number[num]}]")
-
-    #Create the ref list
-    seen_urls = set()
-    references = []
-    ref_counter = 1  
-
-    # Assign new reference numbers in order of first appearance as the conv. states to make it lättare
-    for num in sorted(ref_num_in_text):
+    # get all the num,urls into a list
+    ref_sequence = []
+    for match in matches:
+        num = int(match.group(1))
         url = number_to_url[num]
-        if url not in seen_urls:
-            doc = results[num-1]
-            references.append(
-                f"[{ref_counter}] Title: {doc['metadata']['title']}\n"
-                f"URL: {doc['metadata']['url']}\n\n"
-            )
-            ref_counter += 1
-            seen_urls.add(url)
+        ref_sequence.append(url)
 
-    print(updated_response)
-    #Find  example [2][2] in the text which steems from the chunk refs and turn them into [2] by finding patter that finds more then one [i] with the same number next to eachother
-    double_ref_pattern = re.compile(r'\[(\d+)\]\[\1\]')
+    url_to_newnum = {}
+    references = []
+    updated_response = response
+    current_number = 1
 
-    double_ref_pattern.sub(r'[\1]', updated_response)
 
-    return updated_response, "".join(references)
+    # Want it to start at 1 always, as that is the convention and better for the user experiance
+    for i, url in enumerate(ref_sequence):
+        if url not in url_to_newnum:
+            url_to_newnum[url] = current_number
+            current_number += 1
 
+    result_parts = []
+    last_idx = 0
+    for match, url in zip(matches, ref_sequence):
+        start, end = match.span()
+        result_parts.append(response[last_idx:start])
+        result_parts.append(f"[{url_to_newnum[url]}]")
+        last_idx = end
+    result_parts.append(response[last_idx:])
+    updated_response = ''.join(result_parts)
+
+    #Remove the duplicates created when converting all chunk ids to doc ids [2][2] - > [2]
+    updated_response = re.sub(r'\[(\d+)\]\[\1\]', r'[\1]', updated_response)
+
+        #The ref. list is updated in accordance to the ref in the text, only the ones used get presented here
+    references = []
+    for url, newnum in sorted(url_to_newnum.items(), key=lambda x: x[1]):
+        doc = next(doc for doc in results if doc['metadata']['url'] == url)
+        references.append(
+            f"[{newnum}] Title: {doc['metadata']['title']}\n"
+            f"URL: {doc['metadata']['url']}\n\n"
+        )
+
+    return updated_response, ''.join(references)
