@@ -68,13 +68,28 @@ def search(query, top_k=3):
             })
     return results
 
+#def remove_irrelevant_history():
+    #try:
+    #    responce = chat_client.chat.completions.create(
+    #        messages=[
+    #            {
+    #                "role": "user",
+     #               "content": history,
+     #           }
+     #       ],
+     #       max_tokens=4096,
+     #       temperature=0.2,
+     #       top_p=0.5,
+     ##       model=GPT4O_DEPLOYMENT_NAME
+     #   )
+
 # ---- LLM Response ----
 def get_llm_response(prompt, use_rag=True):
     if use_rag:
         results = search(prompt, top_k=5)
         context = ""
         for i, res in enumerate(results):
-            print(f"[{i+1}] Titel: {res['metadata']['title']} ")
+            #print(f"[{i+1}] Titel: {res['metadata']['title']} ")
             context += f"Document {i+1}: {res['text']}...\n\n"
 
         enhanced_prompt = f"""
@@ -86,11 +101,13 @@ You MUST include references to the specific documents you use.
 
         Question: {prompt}
 
-        Please provide a concise answer. Make references in the following format [number] after each statement based on the source. No referencelist should be included.
-        """#Here is a history of previous asked and answered questions (can be empty if there is no history). Use only if history is deemd relevant to the question being asked. {history}"""
+        Please provide a concise answer. Make references in the following format [number] after each statement based on the source. No referencelist should be included."""
+        if len(history)> 0:
+            enhanced_prompt += f"""Here is previously asked questinon and answers that can help {history}"""
 
     else:
         enhanced_prompt = prompt
+        print(history)
 
     try:
         response = chat_client.chat.completions.create(
@@ -106,16 +123,18 @@ You MUST include references to the specific documents you use.
             model=GPT4O_DEPLOYMENT_NAME
         )
         the_llm_responce, ref = create_refrencelist(response.choices[0].message.content, results)
-        print(response.choices[0].message.content)
+        #print(response.choices[0].message.content)
+        llm_responce_without_ref = remove_references(the_llm_responce)
 
         history.append({
             "question" : prompt,
-            "response" :the_llm_responce,
-            "references": ref
+            "response" :llm_responce_without_ref
         })
+
         #Try to minimize amount of history, this is not yet used.
-        if len(history) >= 3:
+        if len(history) >= 5:
             history.remove(history[0])
+
         s = {
                 "references": ref,
                 "content": the_llm_responce,
@@ -172,3 +191,6 @@ def create_refrencelist(response, results):
         )
 
     return updated_response, ''.join(references)
+
+def remove_references(response):
+    return re.sub(r'\[(\d+)\]',"", response)

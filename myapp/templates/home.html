@@ -9,20 +9,19 @@
     
 </head>
 
-<body class="bg-light width=device-width">
+<body class="container-fluid p-0 m-0">
 
-      <div class="row content-area m-0  min-vh-100">
+     <!--<div class="row flex-grow-1 m-0 h-100 overflow-hidden">-->
+     <div class = "d-flex flex-column flex-lg-row vh-100">
         
-        <div class="col-12 col-md-4 d-flex flex-column border-end bg-white border rounded p-3" id=>
+        <div class="d-flex flex-column bg-white border-end p-3 w-100 w-lg-25 section" id = "referenceColumn">
             <h2 style="text-align: center;">REFERENSER</h2>
-            <br>
             <p style="color:gray; text-align: center;">Klicka på referensnummret för att derigeras till en PDF med aktuell riktlinje från Västra Götalandsregionen.</p>
-            <br><br>
-            <div id="references"></div>
+            <div id="references" class="flex-grow-1 overflow-auto whitespace-pre-wrap"></div>
         </div>
   
-       <div class="col-12 col-md-8 d-flex flex-column bg-secondary text-white p-3">
-          <div class="flex-grow-1 panel-scroll overflow-auto" id="chatScroll">
+       <div class="d-flex flex-column bg-secondary text-white w-100 w-lg-75 section">
+          <div class="flex-grow-1 overflow-auto p-3" id="chatScroll">
             <div class="chat">
                 <div class ="message incoming">
                     <p>
@@ -34,18 +33,18 @@
             </div>
         </div>
   
-            <form method="post" id="promptForm">
+            <form method="post" id="promptForm" class="p-3 bg-secondary">
                 <div class="form-group">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-10">
                          <textarea class="form-control" id="prompt" name="prompt" rows="5" placeholder="Skriv prompt här..."></textarea>
                         </div>
-                        <div class="col">
-                            <button class="btn btn-primary" type="submit">Skicka</button>
+                        <div class="col-2 d-flex align-items-center">
+                            <button class="btn btn-primary w-100" type="submit">Skicka</button>
                         </div>
                     </div>
-                    <p>VIKTIGT! Tänk på att jag kan svara fel, dubbelkolla alltid svaren!</p>
+                    <p class="text-white-50 small mb-0">VIKTIGT! Tänk på att jag kan svara fel, dubbelkolla alltid svaren!</p>
                 </div>
            </form>
         </div>
