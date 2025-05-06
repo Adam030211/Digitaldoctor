@@ -15,7 +15,7 @@
         
         <div class="col-4 d-flex flex-column border-end bg-white border rounded p-3" id=>
             <p>REFERENSER</p>
-            <div id="references" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;"></div>
+            <div id="references"></div>
         </div>
   
        <div class="col-8 d-flex flex-column bg-secondary text-white p-3">
@@ -51,7 +51,7 @@
 </body>
 
 <script>
-
+ 
     const createChatDiv = (message, className) => {
             const chatDiv = document.createElement("div");
             chatDiv.classList.add("message", className);
@@ -83,8 +83,14 @@
       })
       .then(response => response.json())
       .then(data => {
-        //document.getElementById('response').textContent = data.response.content;
-        document.getElementById('references').textContent = data.response.references;
+        // the references
+
+        // set references in te reference list to clickable (the [i], should take you to the URL)
+        const refDiv = document.getElementById('references');
+        refDiv.textContent = data.response.references; 
+        makeReferencesClickable();
+
+        //the caht responce to the question
         try {
         chatbox.appendChild(createChatDiv(data.response.content,"incoming"));
         } catch (error) {
@@ -112,6 +118,24 @@
         subtree: true     
     });
     scrollToBottom(chatScroll);
+
+
+    function makeReferencesClickable() {
+        //Make references in referencelist into links for the correct guideline
+    const refDiv = document.getElementById('references');
+    
+    const rawText = refDiv.textContent;
+    
+    //Find the refernce pattern, and create link around the [i], the rest is not lin (just put the vales of 2 and 3 in the link if you want all)
+    const linkedText = rawText.replace(
+        /(\[\d+\])([^\n]*\nURL: )([^\n]+)/g,
+        '<a href="$3" target="_blank" style="color: inherit; text-decoration: none;">$1</a>$2$3'
+    );
+    //Update the div to contain links and not just plain text from the responce
+    refDiv.innerHTML = linkedText;
+}
+
+
   </script>
 
 {% endblock %}
