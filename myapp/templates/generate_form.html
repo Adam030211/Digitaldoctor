@@ -21,12 +21,14 @@
             <div class="form-group">
               <textarea name="prompt" class="form-control" rows="5" placeholder="Enter your prompt here..."></textarea>
             </div>
+            <!-- Must fix bug with references if we want to use without RAG, then also uncomment the  "formData.set('use_rag', document.getElementById('useRag').checked);"
             <div class="form-check mb-3">
               <input class="form-check-input" type="checkbox" id="useRag" name="use_rag" checked>
               <label class="form-check-label" for="useRag">
                 Use document knowledge (RAG)
               </label>
             </div>
+          -->
             <button type="submit" class="btn btn-primary">Generate</button>
           </form>
           
@@ -41,7 +43,10 @@
     document.getElementById('promptForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
-      formData.set('use_rag', document.getElementById('useRag').checked);
+      //formData.set('use_rag', document.getElementById('useRag').checked);
+      //Set to true always, otherwise -> Handle reference bug
+      formData.set('use_rag', true);
+     
       
       fetch('{% url "generate_text" %}', {
         method: 'POST',

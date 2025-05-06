@@ -42,14 +42,6 @@
                             <button class="btn btn-primary" type="submit">Skicka</button>
                         </div>
                     </div>
-
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="useRag" name="use_rag" checked>
-                        <label class="form-check-label" for="useRag">
-                          Use document knowledge (RAG)
-                        </label>
-                      </div>
-
                 </div>
            </form>
         </div>
@@ -73,7 +65,8 @@
 
       e.preventDefault();
       const formData = new FormData(this);
-      formData.set('use_rag', document.getElementById('useRag').checked);
+      // always use RAG in this UI
+      formData.set('use_rag', true)
     try {
         chatbox.appendChild(createChatDiv(promptText,"outgoing"));
         } catch (error) {
