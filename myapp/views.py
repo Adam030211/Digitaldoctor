@@ -20,7 +20,17 @@ def generate_text(request):
 
 # Create your views here.
 def test(request):
-    print(test_get_azure_openai_response())
-    return render(request, "generate_form.html")
+    if request.method == 'POST':
+        prompt = request.POST.get('prompt', '')
+        use_rag = request.POST.get('use_rag', 'true') == 'true'
+        
+        if prompt:
+            try:
+                response = get_llm_response(prompt, use_rag=use_rag)
+                return JsonResponse({'response': response})
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': 'No prompt provided'}, status=400)
+    return render(request, "home.html")
 
 

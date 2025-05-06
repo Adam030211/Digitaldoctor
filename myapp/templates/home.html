@@ -1,4 +1,124 @@
 {% extends "base.html" %} {% block title %} Home Page {% endblock %}
 {% block content %}
-<p>this is the homepage</p>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+    
+</head>
+
+<body class="bg-light">
+
+      <div class="row content-area m-0">
+        
+        <div class="col-4 d-flex flex-column border-end bg-white border rounded p-3" id=>
+            <p>REFERENSER</p>
+            <div id="references" class="mt-4 p-3 bg-light" style="white-space: pre-wrap;"></div>
+        </div>
+  
+       <div class="col-8 d-flex flex-column bg-secondary text-white p-3">
+          <div class="flex-grow-1 panel-scroll overflow-auto" id="chatScroll">
+            <div class="chat">
+                <div class ="message incoming">
+                    <p>
+                        Välkommen till Digital Doktor. Skriv prompts här.
+                    </p>
+                </div>
+
+            </div>
+
+            </div>
+  
+            <form method="post" id="promptForm">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-10">
+                         <textarea class="form-control" id="prompt" name="prompt" rows="5" placeholder="Skriv prompt här..."></textarea>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary" type="submit">Skicka</button>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="useRag" name="use_rag" checked>
+                        <label class="form-check-label" for="useRag">
+                          Use document knowledge (RAG)
+                        </label>
+                      </div>
+
+                </div>
+           </form>
+        </div>
+  
+      </div>
+  
+</body>
+
+<script>
+
+    const createChatDiv = (message, className) => {
+            const chatDiv = document.createElement("div");
+            chatDiv.classList.add("message", className);
+            chatDiv.innerHTML = `<p>${message}</p>`;
+            return chatDiv;
+        }
+    document.getElementById('promptForm').addEventListener('submit', function(e) {
+        const chatbox = document.querySelector('.chat');
+        const promptInput = document.getElementById('prompt');
+        const promptText = promptInput.value;
+
+      e.preventDefault();
+      const formData = new FormData(this);
+      formData.set('use_rag', document.getElementById('useRag').checked);
+    try {
+        chatbox.appendChild(createChatDiv(promptText,"outgoing"));
+        } catch (error) {
+            console.error(error);
+            }
+      
+      fetch('{% url "test" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        //document.getElementById('response').textContent = data.response.content;
+        document.getElementById('references').textContent = data.response.references;
+        try {
+        chatbox.appendChild(createChatDiv(data.response.content,"incoming"));
+        } catch (error) {
+            console.error(error);
+            }
+      })
+      
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+
+    //Functions below handle automatic scrolling downwards when new item is added to the chat, it uses observer of the scrollable div
+    function scrollToBottom(element) {
+        element.scrollTop = element.scrollHeight;
+    }
+
+    const chatScroll = document.getElementById('chatScroll');
+    const observer = new MutationObserver(() => {
+        scrollToBottom(chatScroll);
+    });
+
+    observer.observe(chatScroll, {
+        childList: true,  
+        subtree: true     
+    });
+    scrollToBottom(chatScroll);
+  </script>
+
 {% endblock %}
