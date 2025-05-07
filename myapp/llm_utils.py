@@ -35,8 +35,6 @@ embedding_client = AzureOpenAI(
     api_version="2024-12-01-preview"
 )
 
-history = []
-
 # ---- Load FAISS index ----
 embeddings = np.load("embeddings.npy")   # TODO: Correct the path
 with open("chunks.pkl", "rb") as f:       # TODO: Correct the path
@@ -68,8 +66,7 @@ def search(query, top_k=3):
             })
     return results
 
-def update_valid_history(prompt):
-    global history
+def update_valid_history(prompt, history):
     history_prompt = f"""Find the index values of all history instances: {history}, that are concidered the most relevant for the following question: {prompt}. Return in a list with the following format [index, index,..., index]. Do not return anything but the list """
     try:
         response = chat_client.chat.completions.create(
@@ -110,13 +107,16 @@ def update_valid_history(prompt):
     return history
 
 # ---- LLM Response ----
-def get_llm_response(prompt, use_rag=True):
+def get_llm_response(request, prompt, use_rag=True):
     original_prompt = prompt
-    global history
+
+    history = request.session.get('history', [])
+    
 
     if len(history)>=1:
         try:
-            history = update_valid_history(prompt)
+            history = update_valid_history(prompt, history)
+            request.session['history'] = history
         
         except Exception as e:
             print(f"update_valid history does not work: {str(e)}")
@@ -176,6 +176,7 @@ You MUST include references to the specific documents you use.
         history.append(
             {"role": "system", "content": llm_responce_without_ref}
         )
+        request.session['history'] = history
         s = {
                 "references": ref,
                 "content": the_llm_responce,

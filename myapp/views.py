@@ -10,7 +10,7 @@ def generate_text(request):
         
         if prompt:
             try:
-                response = get_llm_response(prompt, use_rag=use_rag)
+                response = get_llm_response(request, prompt, use_rag=use_rag)
                 return JsonResponse({'response': response})
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=500)
@@ -26,11 +26,12 @@ def test(request):
         
         if prompt:
             try:
-                response = get_llm_response(prompt, use_rag=use_rag)
+                response = get_llm_response(request, prompt, use_rag=use_rag)
                 return JsonResponse({'response': response})
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=500)
         return JsonResponse({'error': 'No prompt provided'}, status=400)
     return render(request, "home.html")
+
 
 
