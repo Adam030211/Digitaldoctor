@@ -35,8 +35,8 @@
         </div>
   
             <form method="post" id="promptForm" class="p-3 bg-secondary">
+                {% csrf_token %}
                 <div class="form-group">
-                    {% csrf_token %}
                     <div class="row">
                         <div class="col-10">
                          <textarea class="form-control" id="prompt" name="prompt" rows="5" placeholder="Skriv prompt här..."></textarea>
@@ -82,14 +82,18 @@
         } catch (error) {
             console.error(error);
             }
-      
+        
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log('CSRF Token:', csrfToken);
       fetch('{% url "test" %}', {
         method: 'POST',
         body: formData,
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+          'X-CSRFToken': csrfToken
+          
         }
+        //formData.get('csrfmiddlewaretoken')
       })
       .then(response => response.json())
       .then(data => {
@@ -108,7 +112,7 @@
             }
       })
       
-      .catch(error => {
+        .catch(error => {
         console.error('Error:', error);
       });
     });
