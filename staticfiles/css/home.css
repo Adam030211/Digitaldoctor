@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+.section {
+    height: 50%;   
+}
+  
+  @media (min-width: 990px) {
+    .section {
+      height: 100%;
+    }
+  }
+  #referenceColumn{
+    flex-grow: 1;
+    overflow: auto;
+    white-space: pre-wrap;
+  }
+  
+  #chatScroll {
+    min-height: 0;
+    overflow-y: auto;
+  }
+  
+  .chat .message p {
+    background: lightskyblue;
+    padding: 12px 16px;
+    border-radius: 10px 10px 0 10px;
+    color: black;
+  }
+  
+  .chat .incoming p {
+    background-color: aliceblue;
+    border-radius: 10px 10px 10px 0;
+  }
+  
+
