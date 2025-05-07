@@ -68,25 +68,72 @@ def search(query, top_k=3):
             })
     return results
 
-#def remove_irrelevant_history():
-    #try:
-    #    responce = chat_client.chat.completions.create(
-    #        messages=[
-    #            {
-    #                "role": "user",
-     #               "content": history,
-     #           }
-     #       ],
-     #       max_tokens=4096,
-     #       temperature=0.2,
-     #       top_p=0.5,
-     ##       model=GPT4O_DEPLOYMENT_NAME
-     #   )
+def update_valid_history(prompt):
+    global history
+    history_prompt = f"""Find the index values of all history instances: {history}, that are concidered the most relevant for the following question: {prompt}. Return in a list with the following format [index, index,..., index]. Do not return anything but the list """
+    try:
+        response = chat_client.chat.completions.create(
+           messages=[
+               {
+                    "role": "user",
+                    "content": history_prompt,
+
+                }
+            ],
+            max_tokens=4096,
+            temperature=0.2,
+            top_p=0.5,
+          model=GPT4O_DEPLOYMENT_NAME
+       )
+        newHistory = []
+        indexes = []
+
+        get_best_response = response.choices[0].message.content
+        print("\n***History response***:" + get_best_response +"\n\n")
+        indexes = list(re.findall(r'\d+', get_best_response))
+  
+        if len(indexes)> 0:
+            indexes = [int(i) for i in indexes]
+            indexes.sort()
+            for i in indexes:
+                if i < len(history):
+                    newHistory.append(history[i])
+            history=newHistory
+        elif len(indexes) == 0:
+            history = []
+        #to ensure history doesn't become to big if the chat doesn't work we have to forcefully remove some
+        elif len(history)>=5:
+            history.pop(0)
+        
+    except Exception as e:
+        print(f"Error calling GPT-4o for update_valid_history: {str(e)}")
+    return history
 
 # ---- LLM Response ----
 def get_llm_response(prompt, use_rag=True):
+    original_prompt = prompt
+    global history
+
+    if len(history)>=1:
+        try:
+            history = update_valid_history(prompt)
+        
+        except Exception as e:
+            print(f"update_valid history does not work: {str(e)}")
+    
+    if len(history) >=1:
+        try:
+            prompt = f"{history}  {prompt} "
+        except Exception as e:
+            print(f"error constructing new prompt : {str(e)}")
+    print(history)
+
     if use_rag:
-        results = search(prompt, top_k=5)
+        try:
+            results = search(prompt, top_k=5)
+        except Exception as e:
+            print(f"error with search function: {str(e)}")
+        print("Made it to creation of context")
         context = ""
         for i, res in enumerate(results):
             #print(f"[{i+1}] Titel: {res['metadata']['title']} ")
@@ -99,15 +146,12 @@ You MUST include references to the specific documents you use.
 
         {context}
 
-        Question: {prompt}
+        Question: {original_prompt}
 
         Please provide a concise answer. Make references in the following format [number] after each statement based on the source. No referencelist should be included."""
-        if len(history)> 0:
-            enhanced_prompt += f"""Here is previously asked questinon and answers that can help {history}"""
 
     else:
         enhanced_prompt = prompt
-        print(history)
 
     try:
         response = chat_client.chat.completions.create(
@@ -125,16 +169,13 @@ You MUST include references to the specific documents you use.
         the_llm_responce, ref = create_refrencelist(response.choices[0].message.content, results)
         #print(response.choices[0].message.content)
         llm_responce_without_ref = remove_references(the_llm_responce)
-
-        history.append({
-            "question" : prompt,
-            "response" :llm_responce_without_ref
-        })
-
-        #Try to minimize amount of history, this is not yet used.
-        if len(history) >= 5:
-            history.remove(history[0])
-
+ 
+        history.append(
+            {"role": "user", "content": original_prompt}
+        )
+        history.append(
+            {"role": "system", "content": llm_responce_without_ref}
+        )
         s = {
                 "references": ref,
                 "content": the_llm_responce,

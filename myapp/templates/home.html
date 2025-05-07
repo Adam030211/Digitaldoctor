@@ -6,12 +6,13 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
     
 </head>
 
 <body class="container-fluid p-0 m-0">
 
-     <!--<div class="row flex-grow-1 m-0 h-100 overflow-hidden">-->
+     <!-- Row with height 100% when large screen, column with height 50% when smaller screen-->
      <div class = "d-flex flex-column flex-lg-row vh-100">
         
         <div class="d-flex flex-column bg-white border-end p-3 w-100 w-lg-25 section" id = "referenceColumn">
@@ -41,7 +42,13 @@
                          <textarea class="form-control" id="prompt" name="prompt" rows="5" placeholder="Skriv prompt här..."></textarea>
                         </div>
                         <div class="col-2 d-flex align-items-center">
-                            <button class="btn btn-primary w-100" type="submit">Skicka</button>
+                            <button class="btn btn-primary w-100" type="submit">
+                                <!--Using the bootstarp icon-->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                                  </svg>
+                            </button>
+                            
                         </div>
                     </div>
                     <p class="text-white-50 small mb-0">VIKTIGT! Tänk på att jag kan svara fel, dubbelkolla alltid svaren!</p>
@@ -132,9 +139,9 @@
     //Find the refernce pattern, and create link around the [i], the rest is not lin (just put the vales of 2 and 3 in the link if you want all)
     const linkedText = rawText.replace(
         /(\[\d+\])([^\n]*\nURL: )([^\n]+)/g,
-        '<a href="$3" target="_blank" style="color: inherit; text-decoration: none;">$1</a>$2<br>$3'
+        '<a href="$3" target="_blank" style="color: inherit; text-decoration: none;">$1</a><br>$2<br>$3'
     );
-    //Update the div to contain links and not just plain text from the responce
+    //Updates the div to contain links and not just plain text from the responce
     refDiv.innerHTML = linkedText;
 }
 
