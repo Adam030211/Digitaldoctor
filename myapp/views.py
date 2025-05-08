@@ -21,6 +21,7 @@ def generate_text(request):
 
 # Create your views here.
 def test(request):
+
     if request.method == 'POST':
         prompt = request.POST.get('prompt', '')
         use_rag = request.POST.get('use_rag', 'true') == 'true'

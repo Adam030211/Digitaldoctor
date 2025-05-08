@@ -8,6 +8,7 @@ from openai import AzureOpenAI
 from dotenv import load_dotenv
 import re
 import json
+from django.core.cache import cache
 # Load environment variables
 load_dotenv()
 
@@ -109,14 +110,21 @@ def update_valid_history(prompt, history):
 # ---- LLM Response ----
 def get_llm_response(request, prompt, use_rag=True):
     original_prompt = prompt
+    cache_key = f"chat_history_{request.user.id if request.user.is_authenticated else request.session.session_key}"
 
-    history = request.session.get('history', [])
+    ##session_id = request.session.session_key
+
+    ##cache_key = f'chat_history_{session_id}'
+    history = cache.get(cache_key, [])
+
+    #history = request.session.get('history', [])
     
 
     if len(history)>=1:
         try:
             history = update_valid_history(prompt, history)
-            request.session['history'] = history
+            #request.session['history'] = history
+            cache.set(cache_key, history)
         
         except Exception as e:
             print(f"update_valid history does not work: {str(e)}")
@@ -176,7 +184,8 @@ You MUST include references to the specific documents you use.
         history.append(
             {"role": "system", "content": llm_responce_without_ref}
         )
-        request.session['history'] = history
+        #request.session['history'] = history
+        cache.set(cache_key, history)
         s = {
                 "references": ref,
                 "content": the_llm_responce,
