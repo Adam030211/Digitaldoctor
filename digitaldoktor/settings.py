@@ -24,14 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b*qdnob&5=$1yjvnd3o(r$1(4=$wk%*m&&&gte+hi-n9=t4%2r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    'digitaldoktor.azurewebsites.net',
-    'localhost',      
-    '127.0.0.1',     
-]
-
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -87,19 +82,6 @@ DATABASES = {
 }
 
 
-CACHES = {
-    # Testing a django database cache to store temporary history for all sessions, it only lasts an hour and is then deleted
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-        'TIMEOUT': 3600, 
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000,  # Maximum number of entries in cache
-        }
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -142,9 +124,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-#settings for cookies, since session based history
-SESSION_COOKIE_SECURE = True       
-CSRF_COOKIE_SECURE = True          
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True

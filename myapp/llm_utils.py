@@ -8,7 +8,6 @@ from openai import AzureOpenAI
 from dotenv import load_dotenv
 import re
 import json
-from django.core.cache import cache
 # Load environment variables
 load_dotenv()
 
@@ -35,6 +34,8 @@ embedding_client = AzureOpenAI(
     azure_endpoint=EMBEDDING_ENDPOINT,
     api_version="2024-12-01-preview"
 )
+
+history = []
 
 # ---- Load FAISS index ----
 embeddings = np.load("embeddings.npy")   # TODO: Correct the path
@@ -67,7 +68,8 @@ def search(query, top_k=3):
             })
     return results
 
-def update_valid_history(prompt, history):
+def update_valid_history(prompt):
+    global history
     history_prompt = f"""Find the index values of all history instances: {history}, that are concidered the most relevant for the following question: {prompt}. Return in a list with the following format [index, index,..., index]. Do not return anything but the list """
     try:
         response = chat_client.chat.completions.create(
@@ -108,23 +110,13 @@ def update_valid_history(prompt, history):
     return history
 
 # ---- LLM Response ----
-def get_llm_response(request, prompt, use_rag=True):
+def get_llm_response(prompt, use_rag=True):
     original_prompt = prompt
-    cache_key = f"chat_history_{request.user.id if request.user.is_authenticated else request.session.session_key}"
-
-    ##session_id = request.session.session_key
-
-    ##cache_key = f'chat_history_{session_id}'
-    history = cache.get(cache_key, [])
-
-    #history = request.session.get('history', [])
-    
+    global history
 
     if len(history)>=1:
         try:
-            history = update_valid_history(prompt, history)
-            #request.session['history'] = history
-            cache.set(cache_key, history)
+            history = update_valid_history(prompt)
         
         except Exception as e:
             print(f"update_valid history does not work: {str(e)}")
@@ -184,8 +176,6 @@ You MUST include references to the specific documents you use.
         history.append(
             {"role": "system", "content": llm_responce_without_ref}
         )
-        #request.session['history'] = history
-        cache.set(cache_key, history)
         s = {
                 "references": ref,
                 "content": the_llm_responce,
