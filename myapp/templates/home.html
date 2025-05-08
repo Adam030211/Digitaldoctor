@@ -143,7 +143,7 @@
     //Find the refernce pattern, and create link around the [i], the rest is not lin (just put the vales of 2 and 3 in the link if you want all)
     const linkedText = rawText.replace(
         /(\[\d+\])([^\n]*\nURL: )([^\n]+)/g,
-        '<a href="$3" target="_blank" style="color: inherit; text-decoration: none;">$1</a><br>$2<br>$3'
+        '<br><a href="$3" target="_blank" style="color: inherit; text-decoration: none;">$1</a><br>$2<br>$3'
     );
     //Updates the div to contain links and not just plain text from the responce
     refDiv.innerHTML = linkedText;
