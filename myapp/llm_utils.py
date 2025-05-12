@@ -8,6 +8,8 @@ from openai import AzureOpenAI
 from dotenv import load_dotenv
 import re
 import json
+from django.shortcuts import  HttpResponse
+from django.http import HttpRequest
 # Load environment variables
 load_dotenv()
 
@@ -110,9 +112,24 @@ def update_valid_history(prompt):
     return history
 
 # ---- LLM Response ----
-def get_llm_response(prompt, use_rag=True):
+def get_llm_response(prompt, request, use_rag=True):
     original_prompt = prompt
     global history
+
+    
+    if not isinstance(request, HttpRequest):
+        raise TypeError("Request is not a valid HttpRequest object")
+
+    try:
+        if not request.session.session_key:
+            request.session['init'] = True
+        session_id = request.session.session_key
+        print(f"Session ID: {session_id}")
+        key=f"Session ID: {session_id}, it will be none at first call"
+    
+    except Exception as e:
+        print(f"Failed to get session key{str(e)}")
+        key = "Session_key not found"
 
     if len(history)>=1:
         try:
@@ -176,6 +193,7 @@ You MUST include references to the specific documents you use.
         history.append(
             {"role": "system", "content": llm_responce_without_ref}
         )
+        the_llm_responce = f"{the_llm_responce}\n{key}"
         s = {
                 "references": ref,
                 "content": the_llm_responce,
