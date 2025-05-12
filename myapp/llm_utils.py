@@ -10,6 +10,7 @@ import re
 import json
 from django.shortcuts import  HttpResponse
 from django.http import HttpRequest
+from django.http import JsonResponse
 # Load environment variables
 load_dotenv()
 
@@ -116,7 +117,7 @@ def get_llm_response(prompt, request, use_rag=True):
     original_prompt = prompt
     global history
 
-    
+
     if not isinstance(request, HttpRequest):
         raise TypeError("Request is not a valid HttpRequest object")
 
@@ -201,7 +202,7 @@ You MUST include references to the specific documents you use.
         return s
     except Exception as e:
         print(f"Error calling GPT-4o: {str(e)}")
-        return f"Error generating response: {str(e)}"
+    return JsonResponse({'error': str(e)}, status=500)
 
 def create_refrencelist(response, results):
     # mapping the number from the chunk to the url & find all ref. in the LLM response

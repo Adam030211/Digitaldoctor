@@ -75,8 +75,6 @@
 
       e.preventDefault();
       const formData = new FormData(this);
-      // always use RAG in this UI
-      formData.set('use_rag', true)
     try {
         chatbox.appendChild(createChatDiv(promptText,"outgoing"));
         } catch (error) {
