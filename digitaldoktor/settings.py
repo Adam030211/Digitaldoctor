@@ -129,7 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = []#['https://digitaldoktor.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://digitaldoktor.azurewebsites.net']
 
 LOGGING = {
     'version': 1,
